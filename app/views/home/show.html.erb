@@ -1,0 +1,97 @@
+<div class="container">
+
+<%if @issue.no_calificado_or_cerrado?%>
+
+   <div class="formee-msg-info">
+    <h3>Gracias por su colaboración</h3>
+    <ul>
+      <li>Su opinión es muy importante para nosotros.</li>
+    </ul>
+  </div>
+
+
+  <% form_for :calificacion, @calificacion, :url => { :action => "save", :id => @issue}, :html => {:class => "formee"} do |f| -%>
+  <fieldset>
+    <legend>Consulta de satisfacción de servicio</legend>
+    
+    <div class="grid-6-12">
+      <label><b>Asunto:</b></label>
+      <label><%=h @issue.subject%></label>
+    </div>
+
+    <div class="grid-6-12">
+      <label><b>Asignado a:</b></label>
+      <label><%=h (@issue.assigned_to_id) ? (User.find(@issue.assigned_to_id).firstname + " " + User.find(@issue.assigned_to_id).lastname ) : "---"%></label>
+    </div>
+
+     <div class="grid-12-12">
+      <label><b>Descripción:</b></label>
+      <label><%=h @issue.description%></label>
+    </div>
+
+    <!-- nombre 
+    <div class="grid-6-12">
+      <label><b>Nombre: </b><em class="formee-req">*</em></label>
+      <=f.text_field :nombre%>
+    </div>
+    -->
+
+    <div class="grid-6-12">
+      <label><b>¿Cómo calificaría la calidad del servicio en escala de 1 a 5?: </b> <em class="formee-req">*</em></label>
+      <!-- <=f.select  :calificacion, (1..10)%> -->
+
+     <div class="Clear">
+        <input class="star" type="radio" name="raiting" value="1"/>
+        <input class="star" type="radio" name="raiting" value="2"/>
+        <input class="star" type="radio" name="raiting" value="3"/>
+        <input class="star" type="radio" name="raiting" value="4"/>
+        <input class="star" type="radio" name="raiting" value="5"/>
+    </div>
+
+
+
+    </div>
+
+     <!-- Espacio en blanco -->
+     <div class="grid-12-12 clear">
+
+     </div>
+
+     <div class="grid-12-12">
+      <label><b>Observaciones: </b><em class="formee-req">*</em></label>
+      <%=f.text_area  :observaciones%>
+     </div>
+
+
+
+
+  
+    <!-- submit -->
+    <div class="grid-6-12">
+      <input class="right" type="submit" title="CALIFICAR" value="CALIFICAR" />
+    </div>
+  </fieldset>
+ <%end%>
+</div>
+
+
+
+<%else%>
+
+<!-- Ya existe una calificación previa -->
+
+
+ <fieldset>
+    <legend>Servicio ya fue calificado previamente</legend>
+
+    <div class="grid-12-12">
+      <label>Dudas o comentarios, puede comunicarse a la extensión 123 o el correo electrónico: soporte@poderjudicialchiapas.gob.mx</label>
+    </div>
+ </fieldset>
+
+
+
+
+
+
+<%end%>
