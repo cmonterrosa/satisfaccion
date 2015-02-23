@@ -10,7 +10,7 @@ class HomeController < ApplicationController
     #@issue = Issue.find(params[:calificacion][:issue_id]) if params[:calificacion][:issue_id].size > 0
     if params[:calificacion][:issue_id].size > 0
       @issue = Issue.find(:first,
-                        :conditions => ["id = ? AND status_id NOT IN (select id from issue_statuses where name in ('Cerrada', 'Calificada'))", params[:calificacion][:issue_id] ])
+                        :conditions => ["id = ? AND status_id NOT IN (select id from issue_statuses where name in ('Calificada'))", params[:calificacion][:issue_id] ])
     end
     unless @issue
       flash[:error] = "No existe un servicio con ese folio o ya fue capturado anteriormente"
@@ -20,8 +20,8 @@ class HomeController < ApplicationController
   end
 
   def save
-    #ip = request.env['REMOTE_ADDR']
-    ip = request.env['HTTP_X_FORWARDED_FOR']
+    ip = request.env['REMOTE_ADDR']
+    ip ||= request.env['HTTP_X_FORWARDED_FOR']
     @issue = Issue.find(params[:id])
     @calificacion ||= Calificacion.find_by_issue_id(@issue.id)
     @calificacion ||= Calificacion.new
